@@ -31446,7 +31446,80 @@ if (undefined === "mock") {
 }
 
 module.exports.ANIMALS = require("./animals");
-},{"./impl":"../node_modules/@frontendmasters/pet/impl.js","./animals":"../node_modules/@frontendmasters/pet/animals.js"}],"useDropdown.jsx":[function(require,module,exports) {
+},{"./impl":"../node_modules/@frontendmasters/pet/impl.js","./animals":"../node_modules/@frontendmasters/pet/animals.js"}],"Pet.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Pet;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function Pet({
+  name,
+  animal,
+  breed,
+  media,
+  location,
+  id
+}) {
+  let hero = 'http://placecorgi.com/300/300';
+
+  if (media.length) {
+    hero = media[0].small;
+  }
+
+  ;
+  return /*#__PURE__*/_react.default.createElement("a", {
+    href: `/details/${id}`,
+    className: "pet"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "image-container"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    src: hero,
+    alt: name
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "info"
+  }, /*#__PURE__*/_react.default.createElement("h1", null, name), /*#__PURE__*/_react.default.createElement("h2", null, `${animal} - ${breed} - ${location}`)));
+}
+
+;
+},{"react":"../node_modules/react/index.js"}],"Results.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _Pet = _interopRequireDefault(require("./Pet.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const Results = ({
+  pets
+}) => {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "search"
+  }, pets.length === 0 ? /*#__PURE__*/_react.default.createElement("h1", null, "No Pets Found") : pets.map(pet => /*#__PURE__*/_react.default.createElement(_Pet.default, {
+    name: pet.name,
+    animal: pet.type,
+    breed: pet.breeds.primary,
+    key: pet.id,
+    media: pet.photos,
+    location: `${pet.contact.address.city}, ${pet.contact.address.state}`,
+    id: pet.id
+  })));
+};
+
+var _default = Results;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./Pet.jsx":"Pet.jsx"}],"useDropdown.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31460,46 +31533,22 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+const useDropdown = (label, defaultState, options) => {
+  const [state, setState] = (0, _react.useState)(defaultState);
+  const id = `use-dropdown-${label.replace(" ", "").toLowerCase()}`;
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var useDropdown = function useDropdown(label, defaultState, options) {
-  var _useState = (0, _react.useState)(defaultState),
-      _useState2 = _slicedToArray(_useState, 2),
-      state = _useState2[0],
-      setState = _useState2[1];
-
-  var id = "use-dropdown-".concat(label.replace(" ", "").toLowerCase());
-
-  var Dropdown = function Dropdown() {
-    return /*#__PURE__*/_react.default.createElement("label", {
-      htmlFor: id
-    }, label, /*#__PURE__*/_react.default.createElement("select", {
-      id: id,
-      value: state,
-      onChange: function onChange(e) {
-        return setState(e.target.value);
-      },
-      onBlur: function onBlur(e) {
-        return setState(e.target.value);
-      },
-      disabled: options.length === 0
-    }, /*#__PURE__*/_react.default.createElement("option", null, "All"), options.map(function (item) {
-      return /*#__PURE__*/_react.default.createElement("option", {
-        key: item,
-        value: item
-      }, item);
-    })));
-  };
+  const Dropdown = () => /*#__PURE__*/_react.default.createElement("label", {
+    htmlFor: id
+  }, label, /*#__PURE__*/_react.default.createElement("select", {
+    id: id,
+    value: state,
+    onChange: e => setState(e.target.value),
+    onBlur: e => setState(e.target.value),
+    disabled: options.length === 0
+  }, /*#__PURE__*/_react.default.createElement("option", null, "All"), options.map(item => /*#__PURE__*/_react.default.createElement("option", {
+    key: item,
+    value: item
+  }, item))));
 
   return [state, Dropdown, setState];
 };
@@ -31516,9 +31565,11 @@ exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _pet = require("@frontendmasters/pet");
+var _pet = _interopRequireWildcard(require("@frontendmasters/pet"));
 
-var _useDropdown5 = _interopRequireDefault(require("./useDropdown.jsx"));
+var _Results = _interopRequireDefault(require("./Results.jsx"));
+
+var _useDropdown = _interopRequireDefault(require("./useDropdown.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31526,56 +31577,61 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+const SearchParams = () => {
+  const [location, setLocation] = (0, _react.useState)("Seattle, WA");
+  const [breeds, setBreeds] = (0, _react.useState)([]);
+  const [animal, AnimalDropdown] = (0, _useDropdown.default)("Animal", "dog", _pet.ANIMALS);
+  const [breed, BreedDropdown, setBreed] = (0, _useDropdown.default)("Breed", "", breeds);
+  const [pets, setPets] = (0, _react.useState)([]);
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+  async function requestPets() {
+    const {
+      animals
+    } = await _pet.default.animals({
+      location,
+      breed,
+      type: animal
+    });
+    setPets(animals || []);
+    console.log(animals);
+  }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+  ;
+  (0, _react.useEffect)(() => {
+    setBreeds([]);
+    setBreed("");
 
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var SearchParams = function SearchParams() {
-  var _useState = (0, _react.useState)("Seattle, WA"),
-      _useState2 = _slicedToArray(_useState, 2),
-      location = _useState2[0],
-      setLocation = _useState2[1];
-
-  var _useState3 = (0, _react.useState)([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      breeds = _useState4[0],
-      setBreeds = _useState4[1];
-
-  var _useDropdown = (0, _useDropdown5.default)("Animal", "Dog", _pet.ANIMALS),
-      _useDropdown2 = _slicedToArray(_useDropdown, 2),
-      animal = _useDropdown2[0],
-      AnimalDropdown = _useDropdown2[1];
-
-  var _useDropdown3 = (0, _useDropdown5.default)("Breed", "", breeds),
-      _useDropdown4 = _slicedToArray(_useDropdown3, 2),
-      breed = _useDropdown4[0],
-      BreedDropdown = _useDropdown4[1];
-
+    _pet.default.breeds(animal).then(({
+      breeds: apiBreeds
+    }) => {
+      const breedStrings = apiBreeds.map(({
+        name
+      }) => name);
+      setBreeds(breedStrings);
+    }, console.error);
+  }, [animal, setBreed, setBreeds]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search-params"
-  }, /*#__PURE__*/_react.default.createElement("form", null, /*#__PURE__*/_react.default.createElement("label", {
+  }, /*#__PURE__*/_react.default.createElement("form", {
+    onSubmit: e => {
+      e.preventDefault();
+      requestPets();
+    }
+  }, /*#__PURE__*/_react.default.createElement("label", {
     htmlFor: "location"
   }, "Location", /*#__PURE__*/_react.default.createElement("input", {
     id: "location",
     value: location,
     placeholder: "Location",
-    onChange: function onChange(e) {
-      return setLocation(e.target.value);
-    }
-  })), /*#__PURE__*/_react.default.createElement(AnimalDropdown, null), /*#__PURE__*/_react.default.createElement(BreedDropdown, null), /*#__PURE__*/_react.default.createElement("button", null, "Submit")));
+    onChange: e => setLocation(e.target.value)
+  })), /*#__PURE__*/_react.default.createElement(AnimalDropdown, null), /*#__PURE__*/_react.default.createElement(BreedDropdown, null), /*#__PURE__*/_react.default.createElement("button", null, "Submit")), /*#__PURE__*/_react.default.createElement(_Results.default, {
+    pets: pets
+  }));
 };
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js","./useDropdown.jsx":"useDropdown.jsx"}],"App.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js","./Results.jsx":"Results.jsx","./useDropdown.jsx":"useDropdown.jsx"}],"App.jsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -31586,10 +31642,10 @@ var _SearchParams = _interopRequireDefault(require("./SearchParams.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var App = function App() {
-  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
+const App = () => {
+  return /*#__PURE__*/_react.default.createElement(_react.default.StrictMode, null, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", {
     id: "something-important"
-  }, "Adopt Me"), /*#__PURE__*/_react.default.createElement(_SearchParams.default, null));
+  }, "Adopt Me"), /*#__PURE__*/_react.default.createElement(_SearchParams.default, null)));
 };
 
 (0, _reactDom.render)( /*#__PURE__*/_react.default.createElement(App, null), document.getElementById("root"));
@@ -31621,7 +31677,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62207" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64955" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
