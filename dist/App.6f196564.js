@@ -32815,7 +32815,84 @@ const SearchParams = () => {
 
 var _default = SearchParams;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js","./Results.jsx":"Results.jsx","./useDropdown.jsx":"useDropdown.jsx"}],"Details.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js","./Results.jsx":"Results.jsx","./useDropdown.jsx":"useDropdown.jsx"}],"Carousel.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+class Carousel extends _react.Component {
+  constructor(...args) {
+    super(...args);
+
+    _defineProperty(this, "state", {
+      photos: [],
+      active: 0
+    });
+
+    _defineProperty(this, "handleIndexClick", event => {
+      this.setState({
+        active: Number(event.target.dataset.index)
+      });
+    });
+  }
+
+  static getDerivedStateFromProps({
+    media
+  }) {
+    let photos = ['http://placecorgi.com/600/600'];
+
+    if (media.length) {
+      photos = media.map(({
+        large
+      }) => large);
+    }
+
+    return {
+      photos
+    };
+  }
+
+  render() {
+    const {
+      photos,
+      active
+    } = this.state;
+    return /*#__PURE__*/_react.default.createElement("div", {
+      className: "carousel"
+    }, /*#__PURE__*/_react.default.createElement("img", {
+      src: photos[active],
+      alt: "animal"
+    }), /*#__PURE__*/_react.default.createElement("div", {
+      className: "carousel-smaller"
+    }, photos.map((photo, index) =>
+    /*#__PURE__*/
+    // eslint-disable-next-line
+    _react.default.createElement("img", {
+      key: index,
+      onClick: this.handleIndexClick,
+      "data-index": index,
+      src: photo,
+      className: index === active ? "active" : "",
+      alt: "animal thumbnail"
+    }))));
+  }
+
+}
+
+var _default = Carousel;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"Details.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -32827,14 +32904,19 @@ var _react = _interopRequireDefault(require("react"));
 
 var _pet = _interopRequireDefault(require("@frontendmasters/pet"));
 
+var _Carousel = _interopRequireDefault(require("./Carousel.jsx"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 class Details extends _react.default.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  constructor(...args) {
+    super(...args);
+
+    _defineProperty(this, "state", {
       loading: true
-    };
+    });
   }
 
   componentDidMount() {
@@ -32863,18 +32945,21 @@ class Details extends _react.default.Component {
       breed,
       location,
       description,
-      name
+      name,
+      media
     } = this.state;
     return /*#__PURE__*/_react.default.createElement("div", {
       className: "details"
-    }, /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, name), /*#__PURE__*/_react.default.createElement("h2", null, `${animal} - ${breed} - ${location}`), /*#__PURE__*/_react.default.createElement("button", null, "Adopt ", name), /*#__PURE__*/_react.default.createElement("p", null, description)));
+    }, /*#__PURE__*/_react.default.createElement(_Carousel.default, {
+      media: media
+    }), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("h1", null, name), /*#__PURE__*/_react.default.createElement("h2", null, `${animal} - ${breed} - ${location}`), /*#__PURE__*/_react.default.createElement("button", null, "Adopt ", name), /*#__PURE__*/_react.default.createElement("p", null, description)));
   }
 
 }
 
 var _default = Details;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js"}],"App.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@frontendmasters/pet":"../node_modules/@frontendmasters/pet/index.js","./Carousel.jsx":"Carousel.jsx"}],"App.jsx":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -32928,7 +33013,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53126" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53679" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
